@@ -5,10 +5,14 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :nickname,                   presence: true
-  validates :encrypted_password,         presence: true,　length: { minimum: 6 }, format: { with: /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i }
-  validates :family_name_kanji,          presence: true, format: {with: /\A[ぁ-んァ-ン一-龥]/ } # ここがユーザー本名全角の正規表現
-  validates :family_name_furigana,       presence: true, format: {with: /\A[ァ-ヶー－]+\z/ } # ここがフリガナ全角の正規表現
-  validates :first_name_kanji,           presence: true, format: {with: /\A[ぁ-んァ-ン一-龥]/ } # ここがユーザー本名全角の正規表現
-  validates :first_name_furigana,        presence: true, format: {with: /\A[ァ-ヶー－]+\z/ } # ここがフリガナ全角の正規表現
+  validates :encrypted_password,         presence: true, length: { minimum: 6 }, format: { with: /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i }
+ 
+  with_options presence: true, format: { with: /\A[ぁ-んァ-ン一-龥]+\z/ } do
+    validates :first_name_kanji
+    validates :family_name_kanji
 
+  with_options presence: true, format: { with: /\A[ァ-ヶー－]+\z/ } do
+    validates :first_name_furigana
+    validates :family_name_furigana
+  end
 end
