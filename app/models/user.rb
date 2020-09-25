@@ -14,5 +14,6 @@ class User < ApplicationRecord
   with_options presence: true, format: { with: /\A[ァ-ヶー－]+\z/ } do
     validates :first_name_furigana
     validates :family_name_furigana
+   end
   end
 end
